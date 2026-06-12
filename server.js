@@ -115,7 +115,7 @@ app.post('/api/orders', (req, res) => {
 });
 
 app.get('/api/orders', (req, res) => {
-    const orders = [...db.orders].reverse(); // Newest first
+    const orders = [...db.orders].reverse();
     res.json(orders);
 });
 
@@ -135,6 +135,22 @@ app.post('/api/update-stock', (req, res) => {
     } else {
         res.json({ success: false, error: 'Product not found' });
     }
+});
+
+// DELETE product endpoint
+app.delete('/api/products/:id', (req, res) => {
+    const productId = parseInt(req.params.id);
+    const productIndex = db.products.findIndex(p => p.id === productId);
+    
+    if (productIndex === -1) {
+        res.status(404).json({ success: false, error: 'Product not found' });
+        return;
+    }
+    
+    // Remove product
+    const deletedProduct = db.products.splice(productIndex, 1);
+    saveData();
+    res.json({ success: true, message: `Product "${deletedProduct[0].name}" deleted successfully` });
 });
 
 app.listen(PORT, () => {
