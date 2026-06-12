@@ -4,7 +4,8 @@ async function adminLogin() {
     const username = document.getElementById('admin-username').value;
     const password = document.getElementById('admin-password').value;
     
-    const response = await fetch('http://localhost:3000/api/admin/login', {
+    // Use relative URL - works on any domain
+    const response = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
@@ -53,9 +54,10 @@ document.getElementById('product-form')?.addEventListener('submit', async (e) =>
     formData.append('price', document.getElementById('product-price').value);
     formData.append('category', document.getElementById('product-category').value);
     formData.append('stock', document.getElementById('product-stock').value);
-    formData.append('image', document.getElementById('product-image').files[0]);
+    const imageFile = document.getElementById('product-image').files[0];
+    if (imageFile) formData.append('image', imageFile);
     
-    const response = await fetch('http://localhost:3000/api/products', {
+    const response = await fetch('/api/products', {
         method: 'POST',
         body: formData
     });
@@ -64,14 +66,18 @@ document.getElementById('product-form')?.addEventListener('submit', async (e) =>
         alert('Product added successfully!');
         document.getElementById('product-form').reset();
         loadProductsForAdmin();
+    } else {
+        alert('Error adding product');
     }
 });
 
 async function loadProductsForAdmin() {
-    const response = await fetch('http://localhost:3000/api/products');
+    const response = await fetch('/api/products');
     const products = await response.json();
     
     const container = document.getElementById('products-list');
+    if (!container) return;
+    
     container.innerHTML = products.map(product => `
         <div class="product-item">
             <div>
@@ -87,7 +93,7 @@ async function loadProductsForAdmin() {
 }
 
 async function updateStock(productId, status) {
-    const response = await fetch('http://localhost:3000/api/update-stock', {
+    const response = await fetch('/api/update-stock', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: productId, stock: status })
@@ -100,26 +106,29 @@ async function updateStock(productId, status) {
 }
 
 async function loadOrders() {
-    const response = await fetch('http://localhost:3000/api/orders');
+    const response = await fetch('/api/orders');
     const orders = await response.json();
     
     const container = document.getElementById('orders-list');
+    if (!container) return;
+    
+    if (orders.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: #888;">No orders yet</p>';
+        return;
+    }
+    
     container.innerHTML = orders.map(order => `
         <div class="order-item">
             <div class="order-details">
                 <p><strong>${order.customer_name}</strong> - 📞 ${order.phone}</p>
+                <p>📧 ${order.email || 'No email'}</p>
                 <p>📍 Location: ${order.location}</p>
                 <p>🛍️ Product: ${order.product_name} x${order.quantity}</p>
                 <p>💰 Total: GHS ${order.total}</p>
                 <p>📅 Date: ${new Date(order.date).toLocaleString()}</p>
+                ${order.transaction_ref ? `<p>🔑 Ref: ${order.transaction_ref}</p>` : ''}
             </div>
             <div class="order-status">${order.status || 'Pending'}</div>
         </div>
     `).join('');
-}
-
-// Create uploads folder dynamically
-const fs = require('fs');
-if (!fs.existsSync('./uploads')) {
-    fs.mkdirSync('./uploads');
 }
