@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - EYFEL GHANA</title>
+    <link rel="stylesheet" href="admin-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Login Form -->
+        <div id="login-form" class="login-form">
+            <div class="login-box">
+                <h1>EYFEL <span>GHANA</span></h1>
+                <h2>Admin Login</h2>
+                <input type="text" id="admin-username" placeholder="Username" class="admin-input">
+                <input type="password" id="admin-password" placeholder="Password" class="admin-input">
+                <button onclick="adminLogin()" class="admin-btn">Login</button>
+                <p class="login-note">Demo: username: admin | password: admin123</p>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard" style="display: none;">
+            <nav class="admin-nav">
+                <div class="logo">
+                    <h1>EYFEL <span>GHANA</span> Admin</h1>
+                </div>
+                <div class="nav-tabs">
+                    <button class="tab-btn active" onclick="showTab('add-product')">➕ Add Product</button>
+                    <button class="tab-btn" onclick="showTab('manage-stock')">📦 Manage Stock</button>
+                    <button class="tab-btn" onclick="showTab('orders')">📋 Orders</button>
+                    <button class="tab-btn" onclick="logout()">🚪 Logout</button>
+                </div>
+            </nav>
+
+            <!-- Add Product Tab -->
+            <div id="add-product" class="tab-content active">
+                <div class="form-container">
+                    <h2>Add New Product</h2>
+                    <form id="product-form" enctype="multipart/form-data">
+                        <input type="text" id="product-name" placeholder="Product Name" required>
+                        <input type="number" id="product-price" placeholder="Price (GHS)" required>
+                        <select id="product-category" required>
+                            <option value="perfume">Perfume</option>
+                            <option value="diffuser">Room Diffuser</option>
+                        </select>
+                        <select id="product-stock" required>
+                            <option value="in">In Stock</option>
+                            <option value="out">Out of Stock</option>
+                        </select>
+                        <input type="file" id="product-image" accept="image/*">
+                        <button type="submit" class="admin-btn">Add Product</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Manage Stock Tab -->
+            <div id="manage-stock" class="tab-content">
+                <h2>Manage Products Stock</h2>
+                <div id="products-list" class="products-list"></div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="orders" class="tab-content">
+                <h2>Customer Orders</h2>
+                <div id="orders-list" class="orders-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

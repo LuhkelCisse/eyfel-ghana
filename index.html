@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EYFEL GHANA - Luxury Fragrances & Diffusers</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>EYFEL <span>GHANA</span></h1>
+                <p>Luxury Fragrances & Aromas</p>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Shop</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="admin.html">Admin</a></li>
+            </ul>
+            <div class="cart-icon" onclick="toggleCart()">
+                🛒 <span id="cart-count">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h2 class="gold-text">Welcome to EYFEL GHANA</h2>
+            <h1>Discover Your Signature Scent</h1>
+            <p>Experience the finest collection of premium perfumes and room diffusers</p>
+            <a href="#products" class="btn-primary">Shop Now →</a>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products">
+        <div class="container">
+            <h2 class="section-title">Our <span class="gold-text">Collection</span></h2>
+            <p class="section-subtitle">Luxury fragrances crafted for the discerning individual</p>
+            
+            <div class="category-filters">
+                <button class="filter-btn active" onclick="filterProducts('all')">All</button>
+                <button class="filter-btn" onclick="filterProducts('perfume')">Perfumes</button>
+                <button class="filter-btn" onclick="filterProducts('diffuser')">Room Diffusers</button>
+            </div>
+
+            <div id="products-grid" class="products-grid">
+                <!-- Products will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">Our <span class="gold-text">Mission</span></h2>
+                    <p>EYFEL GHANA strives to provide the best service, to provide the best quality perfume and Room fragrances to create convenient shopping for everyone.</p>
+                    <p>We strive to introduce new unique fragrances and to be appreciated as one of the most high-quality fragrance suppliers in Ghana.</p>
+                    <div class="rating">
+                        <span class="gold-text">★★★★★</span>
+                        <span>5.0 Google Review</span>
+                    </div>
+                </div>
+                <div class="about-info">
+                    <h3>📍 Visit Us</h3>
+                    <p>Behind Mambo Spot & Hotel</p>
+                    <p>Asafoatse Lakai St, Accra</p>
+                    <p>📞 055 301 7765</p>
+                    <p>🕒 Open until 8pm</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="toggleCart()">&times;</span>
+            <h2>Your Cart</h2>
+            <div id="cart-items"></div>
+            <div class="cart-total">
+                <h3>Total: GHS <span id="cart-total">0</span></h3>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCheckout()">&times;</span>
+            <h2>Checkout</h2>
+            <form id="checkout-form">
+                <input type="text" id="customer-name" placeholder="Full Name" required>
+                <input type="email" id="customer-email" placeholder="Email Address" required>
+                <input type="tel" id="customer-phone" placeholder="Phone Number" required>
+                <input type="text" id="customer-location" placeholder="Delivery Location (e.g., Accra - Spintex)" required>
+                <button type="submit" class="pay-btn">💳 Pay with Paystack</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: #888;">
+                🔒 Secure payment via Paystack | Mobile Money accepted
+            </p>
+        </div>
+    </div>
+
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
