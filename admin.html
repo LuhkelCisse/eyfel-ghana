@@ -6,6 +6,43 @@
     <title>Admin Dashboard - EYFEL GHANA</title>
     <link rel="stylesheet" href="admin-style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Additional styles for buttons */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .btn-in-stock {
+            padding: 8px 15px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-out-stock {
+            padding: 8px 15px;
+            background: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-delete {
+            padding: 8px 15px;
+            background: #dc2626;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-in-stock:hover, .btn-out-stock:hover, .btn-delete:hover {
+            opacity: 0.8;
+            transform: scale(1.02);
+        }
+    </style>
 </head>
 <body>
     <div class="admin-container">
@@ -45,6 +82,7 @@
                         <select id="product-category" required>
                             <option value="perfume">Perfume</option>
                             <option value="diffuser">Room Diffuser</option>
+                            <option value="spray">Room Spray</option>
                         </select>
                         <select id="product-stock" required>
                             <option value="in">In Stock</option>
