@@ -96,15 +96,25 @@ async function loadProductsForAdmin() {
             return;
         }
         
+        function getCategoryName(cat) {
+            if (cat === 'perfume') return 'Perfume';
+            if (cat === 'diffuser') return 'Room Diffuser';
+            if (cat === 'spray') return 'Room Spray';
+            return cat;
+        }
+        
         container.innerHTML = products.map(product => `
-            <div class="product-item">
+            <div class="product-item" style="background: #111; padding: 15px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #333;">
                 <div>
-                    <strong>${product.name}</strong><br>
-                    Price: GHS ${product.price} | Stock: ${product.stock === 'in' ? '✓ In Stock' : '✗ Out of Stock'}
+                    <strong style="font-size: 1.1rem;">${product.name}</strong><br>
+                    <span style="color: #d4af37;">💰 GHS ${product.price}</span> | 
+                    <span>📁 ${getCategoryName(product.category)}</span> | 
+                    <span>📦 Stock: ${product.stock === 'in' ? '✓ In Stock' : '✗ Out of Stock'}</span>
                 </div>
-                <div>
-                    <button class="stock-btn" onclick="updateStock(${product.id}, 'in')">Mark In Stock</button>
-                    <button class="stock-btn" onclick="updateStock(${product.id}, 'out')">Mark Out of Stock</button>
+                <div class="action-buttons">
+                    <button class="btn-in-stock" onclick="updateStock(${product.id}, 'in')">✓ In Stock</button>
+                    <button class="btn-out-stock" onclick="updateStock(${product.id}, 'out')">✗ Out of Stock</button>
+                    <button class="btn-delete" onclick="deleteProduct(${product.id}, '${product.name}')">🗑️ Delete</button>
                 </div>
             </div>
         `).join('');
@@ -131,6 +141,30 @@ async function updateStock(productId, status) {
     }
 }
 
+async function deleteProduct(productId, productName) {
+    const confirmDelete = confirm(`⚠️ Are you sure you want to delete "${productName}"?\n\nThis action cannot be undone!`);
+    
+    if (!confirmDelete) return;
+    
+    try {
+        const response = await fetch(`/api/products/${productId}`, {
+            method: 'DELETE'
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            alert(`✅ "${productName}" has been deleted successfully!`);
+            loadProductsForAdmin();
+        } else {
+            alert('Error deleting product. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error deleting product:', error);
+        alert('Failed to delete product. Please try again.');
+    }
+}
+
 async function loadOrders() {
     try {
         const response = await fetch('/api/orders');
@@ -145,7 +179,7 @@ async function loadOrders() {
         }
         
         container.innerHTML = orders.map(order => `
-            <div class="order-item">
+            <div class="order-item" style="background: #111; padding: 15px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #333;">
                 <div class="order-details">
                     <p><strong>${order.customer_name}</strong> - 📞 ${order.phone}</p>
                     <p>📧 ${order.email || 'No email'}</p>
@@ -155,7 +189,7 @@ async function loadOrders() {
                     <p>📅 Date: ${new Date(order.date).toLocaleString()}</p>
                     ${order.transaction_ref ? `<p>🔑 Ref: ${order.transaction_ref}</p>` : ''}
                 </div>
-                <div class="order-status">${order.status || 'Pending'}</div>
+                <div class="order-status" style="display: inline-block; padding: 5px 10px; background: #4caf50; color: white; border-radius: 5px;">${order.status || 'Pending'}</div>
             </div>
         `).join('');
     } catch (error) {
